@@ -1,4 +1,5 @@
 import requests
+import matplotlib.pyplot as plt
 
 def get_weather(city, api_key):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
@@ -12,9 +13,11 @@ def get_weather(city, api_key):
         user_input = input('Do you want the units to be farenheit or celcius?: ')
         temp_faren = temperature * 9/5 + 32
         if user_input == 'Farenheit'.lower():
-            return f'The weather in {city} is {description} with a temperature of {temp_faren}°F and a humidity of {humidity}%'
+            formatted_message = f'The weather in {city} is {description} with a temperature of {temp_faren}°F and a humidity of {humidity}%'
+            return {"temprature": temp_faren, "humidity": humidity}, formatted_message
         if user_input == 'Celcius'.lower():
-            return f'The weather in {city} is {description} with a temperature of {temperature}°C and a humidity of {humidity}%'
+            formatted_message = f'The weather in {city} is {description} with a temperature of {temperature}°F and a humidity of {humidity}%'
+            return {"temperature": temperature, "humidity": humidity}, formatted_message
         else:
             print("Check your spelling on celcius or farenheit")
     
@@ -41,10 +44,45 @@ def chatbot():
         if user_input == 'weather':  
             print('Tell me a specific location and I will tell you the weather of that location.')
             city = input('What place do you want the weather of: ')
-            weather_info = get_weather(city, api_key)
-            print(f'WeatherBot: {weather_info}')
-        else:  
-            print('I can only help with weather-related questions.')
+            weather_info1 = get_weather(city, api_key)
+            print(f'WeatherBot: {weather_info1}')
+            compare = input('Do you want to comapre the weather of 2 cities?(yes/no): ').strip().lower()
+            if compare == 'yes':
+                city2 = input('Enter a city for comaprison: ').strip().lower()
+                weather_data1, weather_info1 = get_weather(city, api_key)
+                weather_data2, weather_info2 = get_weather(city2, api_key)
+                if weather_data1 and weather_data2:
+                    comparison_type = input('Do you want to compare temprature or humidity: ').strip().lower()
+                    if comparison_type == 'temprature':
+                        temp1 = weather_data1["temprature"]
+                        temp2 = weather_data2["temprature"]
+                        
+                        labels = [city, city2]
+                        values = [temp1, temp2]
+                        
+                        plt.yticks([i * 10 for i in range(10)])
+
+                
+                        plt.bar(labels, values)
+                        plt.show()
+                        
+                        
+                        
+
+
+                
+                
+            
+
             
 
 chatbot()
+
+
+    
+
+
+
+
+
+
