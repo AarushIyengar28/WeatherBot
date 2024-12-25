@@ -10,8 +10,9 @@ def get_weather(city, api_key):
         temperature = data["main"]["temp"] 
         description = data["weather"][0]["description"]
         humidity = data["main"]["humidity"]
-        user_input = input('Do you want the units to be farenheit or celcius?: ')
         temp_faren = temperature * 9/5 + 32
+        user_input = input('Do you want the units to be farenheit or celcius?: ')
+        
         if user_input == 'Farenheit'.lower():
             formatted_message = f'The weather in {city} is {description} with a temperature of {temp_faren}°F and a humidity of {humidity}%'
             return {"temprature": temp_faren, "humidity": humidity}, formatted_message
@@ -65,19 +66,21 @@ def chatbot():
                 
                         plt.bar(labels, values)
                         plt.show()
-                        
-                        
-                        
-
+                if comparison_type == 'humidity':
+                    humidity1 = weather_data1["humidity"]
+                    humidity2 = weather_data2["humidity"]
+                    labels = [city, city2]
+                    values = [humidity1, humidity2]
+                    plt.yticks([i * 10 for i in range(10)])
 
                 
-                
-            
+                    plt.bar(labels, values)
+                    plt.show()        
+                        
+                        
 
-            
 
 chatbot()
-
 
     
 
